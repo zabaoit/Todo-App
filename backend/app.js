@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import todoRouter from "./router/todoRouter.js";
 
 const app = express();
 
@@ -7,8 +8,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/vi/status", (req, res) => {
-  res.status(200).json({ status: "Api  is running ..." });
-});
+app.use("/api/v2/todos", todoRouter);
 
 export default app;
