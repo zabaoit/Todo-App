@@ -1,7 +1,7 @@
 import React from "react";
 import TaskItem from "./TaskItem";
 
-const TaskList = ({ tasks, loading, editingTask, setEditingTask }) => {
+const TaskList = ({ tasks, loading, editingTask, setEditingTask, updateTask, deleteTask, toggleTask }) => {
   if (loading) {
     return (
       <div className="text-center">
@@ -21,7 +21,17 @@ const TaskList = ({ tasks, loading, editingTask, setEditingTask }) => {
   return (
     <div className="space-y-4">
       {tasks.map(task => {
-        return <TaskItem key={task._id} task={task} editingTask={editingTask} setEditingTask={setEditingTask} />;
+        return (
+          <TaskItem
+            key={task._id}
+            task={task}
+            editingTask={editingTask}
+            setEditingTask={setEditingTask}
+            updateTask={updateTask}
+            deleteTask={deleteTask}
+            toggleTask={toggleTask}
+          />
+        );
       })}
     </div>
   );

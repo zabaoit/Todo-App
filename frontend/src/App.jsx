@@ -4,10 +4,11 @@ import FilterButton from "./components/FilterButton";
 import TaskForm from "./components/TaskForm";
 import { useEffect, useState } from "react";
 import Stats from "./components/Stats";
-import { fetchTaskApi } from "./api/taskApi.js";
+import { createTaskApi, deleteTaskApi, fetchTaskApi, toggleTaskApi, updateTaskApi } from "./api/taskApi.js";
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState({ title: "", description: "" });
   const [editingTask, setEditingTask] = useState(null);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("all");
@@ -25,6 +26,46 @@ const App = () => {
     }
   };
 
+  const createTask = async () => {
+    if (!newTask.title.trim()) return;
+
+    try {
+      const data = await createTaskApi(newTask);
+      setTasks([data, ...tasks]);
+      setNewTask({ title: "", description: "" });
+      setShowForm(false);
+    } catch (err) {
+      console.log("Error fetching", err);
+    }
+  };
+
+  const updateTask = async (id, updates) => {
+    try {
+      const updated = await updateTaskApi(id, updates);
+      setTasks(tasks.map(t => (t._id === id ? updated : t)));
+      setEditingTask(null);
+    } catch (err) {
+      console.log("Error fetching", err);
+    }
+  };
+
+  const deleteTask = async id => {
+    try {
+      await deleteTaskApi(id);
+      setTasks(tasks.filter(t => t._id !== id));
+    } catch (err) {
+      console.log("Error fetching", err);
+    }
+  };
+
+  const toggleTask = async id => {
+    try {
+      const updated = await toggleTaskApi(id);
+      setTasks(tasks.map(t => (t._id === id ? updated : t)));
+    } catch (err) {
+      console.log("Error fetching", err);
+    }
+  };
   const filteredTask = tasks.filter(task => {
     if (filter == "completed") return task.completed;
     if (filter == "pending") return !task.completed;
@@ -39,7 +80,7 @@ const App = () => {
 
   useEffect(() => {
     fetchtasks();
-  }, []);
+  }, [filter]);
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-8 ">
       <div className="max-w-3xl mx-auto">
@@ -57,7 +98,15 @@ const App = () => {
         </div>
 
         <FilterButton filter={filter} setFilter={setFilter} />
-        <TaskList tasks={filteredTask} loading={loading} editingTask={editingTask} setEditingTask={setEditingTask} />
+        <TaskList
+          tasks={filteredTask}
+          loading={loading}
+          editingTask={editingTask}
+          setEditingTask={setEditingTask}
+          updateTask={updateTask}
+          deleteTask={deleteTask}
+          toggleTask={toggleTask}
+        />
       </div>
 
       {/* Dark Full Screen Modal */}
@@ -66,7 +115,12 @@ const App = () => {
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center  z-50">
           <div className="w-full max-w-3xl px-8">
             {/* Task Form */}
-            <TaskForm onCancel={() => setShowForm(!showForm)} />
+            <TaskForm
+              onCancel={() => setShowForm(!showForm)}
+              onCreate={createTask}
+              newTask={newTask}
+              setNewTask={setNewTask}
+            />
           </div>
         </div>
       )}
