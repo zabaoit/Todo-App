@@ -24,7 +24,6 @@ const getTodoById = async (req, res) => {
 const createTodo = async (req, res) => {
   try {
     const { title, description } = req.body;
-
     const tasks = new Todo({
       title: title,
       description: description,
@@ -82,7 +81,7 @@ const toggleCompleted = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const task = await Todo.findByIdAndDelete(id);
+    const task = await Todo.findById(id);
     if (!task) {
       return res.status(404).json({ message: "Task not found!" });
     }
