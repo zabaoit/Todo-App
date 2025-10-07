@@ -48,6 +48,7 @@ const updateTodo = async (req, res) => {
         title,
         description,
         completed,
+        updateAt: Date.now(),
       },
       { new: true, runValidators: true }
     );
