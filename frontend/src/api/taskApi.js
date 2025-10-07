@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.API_BASE_URL || "http://localhost:8080/api/v2";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api/v2";
 
 const fetchTaskApi = async () => {
   const results = await fetch(`${API_BASE_URL}/todos`);
