@@ -12,7 +12,10 @@ const TaskItem = ({ task, editingTask, setEditingTask, updateTask, deleteTask, t
       {editingTask == task._id ? (
         <EditTaskForm
           task={task}
-          onSave={updates => updateTask(task._id, updates)}
+          onSave={updates => {
+            updateTask(task._id, updates);
+            setEditingTask(null);
+          }}
           onCancel={() => setEditingTask(null)}
         />
       ) : (
