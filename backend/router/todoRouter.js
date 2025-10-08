@@ -7,8 +7,11 @@ import {
   deleteTodo,
   toggleCompleted,
 } from "../controller/todoController.js";
+import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
+
+router.use(verifyToken);
 
 router.route("/").get(getAllTodos).post(createTodo);
 router.route("/:id").get(getTodoById).put(updateTodo).delete(deleteTodo);

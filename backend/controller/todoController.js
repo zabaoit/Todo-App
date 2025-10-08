@@ -2,7 +2,7 @@ import Todo from "../models/todoModels.js";
 
 const getAllTodos = async (req, res) => {
   try {
-    const task = await Todo.find().sort({ createAt: -1 });
+    const task = await Todo.find({ user: req.user._id }).sort({ createAt: -1 });
     res.json(task);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -27,6 +27,7 @@ const createTodo = async (req, res) => {
     const tasks = new Todo({
       title: title,
       description: description,
+      user: req.user._id,
     });
 
     const savedTask = await tasks.save();
