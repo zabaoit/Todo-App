@@ -1,7 +1,17 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api/v2";
 
+const getAuthHeader = () => {
+  const token = localStorage.getItem("token");
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+};
+
 const fetchTaskApi = async () => {
-  const results = await fetch(`${API_BASE_URL}/todos`);
+  const results = await fetch(`${API_BASE_URL}/todos`, {
+    headers: getAuthHeader(),
+  });
   if (!results.ok) throw new Error("Failed to fetch task");
   return results.json();
 };
@@ -9,9 +19,7 @@ const fetchTaskApi = async () => {
 const createTaskApi = async task => {
   const results = await fetch(`${API_BASE_URL}/todos`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: getAuthHeader(),
     body: JSON.stringify(task),
   });
 
@@ -24,9 +32,7 @@ const createTaskApi = async task => {
 const updateTaskApi = async (id, uppdates) => {
   const results = await fetch(`${API_BASE_URL}/todos/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: getAuthHeader(),
     body: JSON.stringify(uppdates),
   });
 
@@ -39,6 +45,7 @@ const updateTaskApi = async (id, uppdates) => {
 const deleteTaskApi = async id => {
   const results = await fetch(`${API_BASE_URL}/todos/${id}`, {
     method: "DELETE",
+    headers: getAuthHeader(),
   });
 
   if (!results.ok) throw new Error("Failed to delete task");
@@ -48,6 +55,7 @@ const deleteTaskApi = async id => {
 const toggleTaskApi = async id => {
   const results = await fetch(`${API_BASE_URL}/todos/${id}/toggle`, {
     method: "PATCH",
+    headers: getAuthHeader(),
   });
 
   if (!results.ok) throw new Error("Failed to update task");
