@@ -1,24 +1,23 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import { useEffect, useState } from "react";
+import Register from "./pages/Register";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
-  const navigate = useNavigate();
-  const [token, setToken] = useState(localStorage.getItem("token"));
-
-  useEffect(() => {
-    if (token) {
-      navigate("/");
-    } else {
-      navigate("/login");
-    }
-  }, [token, navigate]);
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login onLoginSuccess={() => setToken(localStorage.getItem("token"))} />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </div>
   );
