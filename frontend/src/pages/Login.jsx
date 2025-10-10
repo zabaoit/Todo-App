@@ -29,6 +29,7 @@ const Login = () => {
       }
 
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data.user.id);
       setIsSuccess(true);
       setMessage(data.message);
 
