@@ -4,13 +4,29 @@ import Logout from "@mui/icons-material/Logout";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { fetchUserApiById } from "../api/userApi";
 import { profileimg } from "../assets/asset";
+import { useNavigate } from "react-router-dom";
 
 const ProfileMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [user, setUser] = useState("");
+
+  const navigate = useNavigate();
+
   const handleClick = event => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+
+  const logOut = () => {
+    try {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const fetchUser = async id => {
     try {
@@ -95,7 +111,7 @@ const ProfileMenu = () => {
           Tài khoản
         </MenuItem>
 
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={logOut}>
           <ListItemIcon>
             <Logout fontSize="small" color="error" />
           </ListItemIcon>
