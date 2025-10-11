@@ -29,20 +29,39 @@ Dự án được chia thành **frontend (React)** và **backend (Express/MongoD
 - 🔄 RESTful API (`GET`, `POST`, `PUT`, `DELETE`)
 
 ---
-
+### Cấu trúc thư mục
 ```bash
-src/
-├─ api/                # Hàm gọi API (fetch, create, update, delete)
-├─ components/         # Giao diện (TaskList, TaskForm, Header, Stats...)
-├─ assets/             # Ảnh, icon
-├─ App.jsx             # Component chính
-├─ main.jsx            # Điểm khởi chạy React
-└─ index.css           # CSS toàn cục
+
+backend/   # API backend
+frontend/  # UI frontend
 
 ```
 ---
+## ⚙ Cài đặt & Chạy dự án
+```bash
+# Clone repo
+git clone https://github.com/<username>/Todo-App.git
+cd Todo-App
+
+# Cài backend
+cd backend
+npm install
+
+# Cài frontend
+cd ../frontend
+npm install
+
+# Chạy backend
+cd ../backend
+npm run dev
+
+# Chạy frontend
+cd ../frontend
+npm run dev
+```
+---
 ## 🧑‍💻 Dev Info
-- 👤 Author	Bao Gia (zabaoit)
+- 👤 Author	Nguyen Gia Bao (zabaoit)
 - 🏫 Trường	Saigon Technology University (STU)
 - 💬 Email	nguyengiabao8407@gmail.com
 - 🌐 Portfolio	https://zabaoit-motion-portfolio.vercel.app/
